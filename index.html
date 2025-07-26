@@ -46,24 +46,22 @@
     <button id="prev">← Sebelumnya</button>
     <button id="next">Berikutnya →</button>
   </div>
+<script>
+  const book = ePub("cerita.epub");
 
-  <script>
-    const book = ePub("cerita.epub");
+  book.ready.then(() => {
+    const spineItem = book.spine.get(0); // bab pertama
+    console.log("First spine item:", spineItem);
+
     const rendition = book.renderTo("viewer", {
       width: "100%",
       height: "100%",
     });
 
-    rendition.display();
-
-    // Navigasi bab
-    document.getElementById("prev").addEventListener("click", () => {
-      rendition.prev();
+    rendition.display(spineItem.href).catch((err) => {
+      console.error("Gagal render:", err);
     });
-
-    document.getElementById("next").addEventListener("click", () => {
-      rendition.next();
-    });
-  </script>
+  });
+</script>
 </body>
 </html>
